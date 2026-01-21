@@ -1,6 +1,6 @@
 package eone.grim.moviebrowser.presentation.movies.details
 
-import eone.grim.moviebrowser.presentation.model.MovieUI
+import eone.grim.moviebrowser.presentation.model.MovieDetailsUI
 import eone.grim.moviebrowser.presentation.mvi.MviEffect
 import eone.grim.moviebrowser.presentation.mvi.MviIntent
 import eone.grim.moviebrowser.presentation.mvi.MviState
@@ -13,7 +13,7 @@ object MovieDetailsContract {
 
     data class State(
         val isLoading: Boolean = false,
-        val movie: MovieUI? = null,
+        val movie: MovieDetailsUI? = null,
         val error: String? = null
     ) : MviState
 

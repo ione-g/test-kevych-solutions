@@ -4,6 +4,7 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import eone.grim.moviebrowser.data.remote.dto.ConfigurationDto
+import eone.grim.moviebrowser.data.remote.dto.MovieDetailsDto
 import eone.grim.moviebrowser.data.remote.dto.MovieDto
 import eone.grim.moviebrowser.data.remote.dto.PopularMoviesResponseDto
 
@@ -24,4 +25,9 @@ class TmdbApi(
 
     suspend fun getConfiguration(): ConfigurationDto =
         client.get("${baseUrl}configuration").body()
+
+    suspend fun getMovieDetails(movieId: Long, language: String? = null): MovieDetailsDto =
+        client.get("${baseUrl}movie/$movieId") {
+            language?.let { parameter("language", it) }
+        }.body()
 }

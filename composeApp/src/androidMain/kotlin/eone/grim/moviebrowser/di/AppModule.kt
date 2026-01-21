@@ -4,7 +4,9 @@ import android.content.Context
 import eone.grim.moviebrowser.BuildConfig
 import eone.grim.moviebrowser.data.images.ImageConfigStore
 import eone.grim.moviebrowser.data.remote.TmdbApi
+import eone.grim.moviebrowser.data.repository.MovieDetailsRepositoryImpl
 import eone.grim.moviebrowser.data.repository.MovieRepositoryImpl
+import eone.grim.moviebrowser.domain.repository.MovieDetailsRepository
 import eone.grim.moviebrowser.domain.repository.MovieRepository
 import eone.grim.moviebrowser.domain.usecase.GetMovieDetails
 import eone.grim.moviebrowser.domain.usecase.GetPopularMovies
@@ -23,8 +25,6 @@ fun appModules(context: Context): List<Module> = listOf(
         // App scope (MVI VM scope)
         single<CoroutineScope> { CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate) }
 
-
-
         // Ktor + API
         single {
             provideHttpClient(
@@ -37,11 +37,11 @@ fun appModules(context: Context): List<Module> = listOf(
 
         // Repositories
         single<MovieRepository> { MovieRepositoryImpl(get()) }
+        single<MovieDetailsRepository> { MovieDetailsRepositoryImpl(get()) }
 
         // UseCases
         factory { GetPopularMovies(get()) }
         factory { GetMovieDetails(get()) }
-
 
         // VMs
         factory { MovieListViewModel(get(), get(), get()) }

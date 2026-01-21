@@ -10,15 +10,22 @@ class ImageConfigStore(
     private val mutex = Mutex()
     private var secureBaseUrl: String? = null
     private var posterSize: String? = null
+    private var backdropSize: String? = null
 
     suspend fun ensureLoaded() {
-        if (secureBaseUrl != null && posterSize != null) return
+        if (secureBaseUrl != null && posterSize != null && backdropSize != null) return
         mutex.withLock {
-            if (secureBaseUrl != null && posterSize != null) return@withLock
+            if (secureBaseUrl != null && posterSize != null && backdropSize != null) return@withLock
+
             val cfg = api.getConfiguration()
             secureBaseUrl = cfg.images.secureBaseUrl
+
             posterSize = cfg.images.posterSizes.firstOrNull { it == "w500" }
                 ?: cfg.images.posterSizes.firstOrNull()
+                        ?: "original"
+
+            backdropSize = cfg.images.backdropSizes.firstOrNull { it == "w780" }
+                ?: cfg.images.backdropSizes.firstOrNull()
                         ?: "original"
         }
     }
@@ -27,5 +34,11 @@ class ImageConfigStore(
         if (posterPath.isNullOrBlank()) return null
         ensureLoaded()
         return "${secureBaseUrl}${posterSize}$posterPath"
+    }
+
+    suspend fun backdropUrl(backdropPath: String?): String? {
+        if (backdropPath.isNullOrBlank()) return null
+        ensureLoaded()
+        return "${secureBaseUrl}${backdropSize}$backdropPath"
     }
 }

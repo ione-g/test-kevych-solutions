@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ImagesDto(
     @SerialName("secure_base_url") val secureBaseUrl: String,
-    @SerialName("poster_sizes") val posterSizes: List<String>
+    @SerialName("poster_sizes") val posterSizes: List<String>,
+    @SerialName("backdrop_sizes") val backdropSizes: List<String>
 )

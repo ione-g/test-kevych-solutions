@@ -1,6 +1,7 @@
 package eone.grim.moviebrowser.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -78,7 +80,15 @@ fun MovieListScreen(nav: NavHostController) {
             Button(modifier = Modifier.fillMaxWidth(), onClick = { vm.onIntent(MovieListContract.Intent.OnRetry) }) { Text("Retry") }
         }
 
-        else -> LazyColumn(state = listState) {
+        else -> LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(top = 12.dp)
+            , verticalArrangement = Arrangement.spacedBy(4.dp)
+
+        ) {
             items(state.items, key = { it.id }) { movie ->
                 MovieRow(
                     movie = movie,
@@ -122,25 +132,27 @@ private fun MovieRow(
     movie: MovieUI,
     onClick: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(12.dp)
-    ) {
-        AsyncImage(
-            model = movie.posterUrl,
-            contentDescription = null,
-            modifier = Modifier.size(72.dp)
-        )
-        Spacer(Modifier.width(12.dp))
-        Column(Modifier.weight(1f)) {
-            Text(movie.title, style = MaterialTheme.typography.titleMedium)
-            Text(
-                movie.overview,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis
+    ElevatedCard {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClick)
+                .padding(12.dp)
+        ) {
+            AsyncImage(
+                model = movie.posterUrl,
+                contentDescription = null,
+                modifier = Modifier.size(72.dp)
             )
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                Text(movie.title, style = MaterialTheme.typography.titleMedium)
+                Text(
+                    movie.overview,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }
