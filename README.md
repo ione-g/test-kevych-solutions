@@ -8,8 +8,8 @@ MovieBrowser — Android-застосунок для перегляду попу
 
 ### 1) Клонувати репозиторій
 ```sh
-git clone https://github.com/ione-g/moviebrowser
-cd moviebrowser
+git clone https://github.com/ione-g/test-kevych-solutions
+cd test-kevych-solutions
 ```
 
 ### 2) Створіть або відредагуйте файл local.properties у корені проєкту:
@@ -26,4 +26,4 @@ echo 'TMDB_BASE_URL=https://api.themoviedb.org/3/' >> local.properties
 ./gradlew :composeApp:installDebug
 ```
 
-#### 4) Можна завантажити .apk
+#### 4) Можна завантажити .apk у Releases
